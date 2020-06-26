@@ -1,5 +1,7 @@
 package models;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,16 +13,16 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-@Table(name = "follower")
+@Table(name = "following")
 @NamedQueries({
     @NamedQuery(
-            name = "getAllFollower",
-        query = "SELECT f FROM follow AS f ORDER BY f.id DESC"
-        ),
+            name = "getFollow_id",
+            query = "SELECT f FROM Follow AS f WHERE f.employee = :employee ORDER BY f.id"
+            ),
     @NamedQuery(
-            name = "getFollowerCount",
-        query = "SELECT COUNT(f) FROM Follow AS f"
-             ),
+            name = "getFollowDestroy",
+            query = "SELECT f FROM Follow AS f WHERE f.employee = :employee AND f.follow = :follow_id"
+            )
 })
 @Entity
 public class Follow {
@@ -30,35 +32,56 @@ public class Follow {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
-    private Employee employee_id;
+    @JoinColumn(name = "employee", nullable = false)
+    private Employee employee;
 
     @ManyToOne
-    @JoinColumn(name = "employee_name", nullable = false)
-    private Employee employee_name;
+    @JoinColumn(name = "follow_id", nullable = false)
+    private Employee follow;
 
-    public void setId(Integer id) {
-            this.id = id;
-    }
+    @Column(name = "created_at", nullable = false)
+    private Timestamp created_at;
+
+    @Column(name = "updated_at", nullable = false)
+    private Timestamp updated_at;
 
     public Integer getId() {
-            return id;
+        return id;
     }
 
-    public void setEmployee_id(Employee employee_id) {
-            this.employee_id = employee_id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Employee getEmployee_id() {
-            return employee_id;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployee_name(Employee employee_name) {
-            this.employee_name = employee_name;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-    public Employee getEmployee_name(Employee employee_name) {
-            return employee_name;
+    public Employee getFollow() {
+        return follow;
     }
 
+    public void setFollow(Employee follow) {
+        this.follow = follow;
+    }
+
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    public Timestamp getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
+    }
 }

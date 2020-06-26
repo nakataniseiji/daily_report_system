@@ -27,11 +27,11 @@ import javax.persistence.Table;
             ),
     @NamedQuery(
             name = "getMyAllReports",
-            query = "SELECT r FROM Report AS r WHERE r.employee = :employee ORDER BY r.id DESC"
+            query = "SELECT r FROM Report AS r INNER JOIN models.Follow AS f ON f.follow = r.employee AND f.employee = :employee ORDER BY r.id DESC"
             ),
     @NamedQuery(
             name = "getMyReportsCount",
-            query = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :employee"
+            query = "SELECT COUNT(r) FROM Report AS r INNER JOIN models.Follow AS f ON f.follow = r.employee AND f.employee = :employee"
             )
 })
 @Entity

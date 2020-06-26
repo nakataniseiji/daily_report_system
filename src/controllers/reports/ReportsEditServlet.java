@@ -33,10 +33,12 @@ public class ReportsEditServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //DBに接続する
         EntityManager em = DBUtil.createEntityManager();
 
         Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
 
+        //DBを閉じる
         em.close();
 
         Employee login_employee = (Employee)request.getSession().getAttribute("login_employee");

@@ -31,12 +31,19 @@ public class ReportsNewServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //CSRF対策
         request.setAttribute("_token", request.getSession().getId());
 
+        //Reportインスタンス作成
         Report r = new Report();
+
+        //作成した日時の値を取得する
         r.setReport_date(new Date(System.currentTimeMillis()));
+
+        //jspに値を送る
         request.setAttribute("report", r);
 
+        //viewとなるjspを指定する
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/new.jsp");
         rd.forward(request, response);
     }
